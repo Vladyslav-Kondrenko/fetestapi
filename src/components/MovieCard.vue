@@ -35,7 +35,7 @@ const getMovieSessions = async function () {
 </script>
 
 <template>
-  <Card class="flex flex-col">
+  <Card class="flex flex-col md:hover:shadow-lg md:transition-shadow">
     <CardContent>
       <div class="h-80 overflow-hidden flex justify-center mb-4 pt-6">
         <img :src="movie.image" :alt="movie.name" class="h-full max-h-80 object-contain	">

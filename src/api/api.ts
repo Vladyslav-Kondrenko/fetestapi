@@ -1,7 +1,13 @@
 import axios from 'axios';
-
+import type { Movie } from '@/components/movie.type';
 const apiDomain = import.meta.env.VITE_BACKEND_API_URL;
 
+
+interface SearchMoviesResponse {
+  error_code: number;
+  error_message: string;
+  data: Movie[];
+}
 
 export const getAllMovies = async () => {
   try {
@@ -13,7 +19,7 @@ export const getAllMovies = async () => {
   }
 };
 
-export const searchMovies = async (id?: number, name?: string, genres?: number) => {
+export const searchMovies = async (id?: number, name?: string, genres?: number): Promise<SearchMoviesResponse> => {
   try {
     const params = new URLSearchParams();
     if (id !== undefined) params.append('movie_id', id.toString());
