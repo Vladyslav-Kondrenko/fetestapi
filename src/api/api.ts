@@ -44,3 +44,68 @@ export const getMovieShows = async (id?: number) => {
     throw error;
   }
 };
+
+interface Seat {
+  seat: number;
+  is_free: boolean;
+}
+
+interface Row {
+  row: number;
+}
+
+export type ShowPlaceData = [Row, Seat[]];
+
+interface GetShowPlacesResponse {
+  error_code: number;
+  error_message: string;
+  data: ShowPlaceData[];
+}
+
+export const getShowPlaces = async (id: number, daytime: string, showdate: string): Promise<GetShowPlacesResponse> => {
+  try {
+    const params = new URLSearchParams();
+    params.append('movie_id', id.toString());
+    params.append('daytime', daytime);
+    params.append('showdate', showdate);
+
+    const response = await axios.get(`${apiDomain}/showPlaces`, { params });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching show places:', error);
+    throw error;
+  }
+};
+
+export interface BookPlaceRequest {
+  movie_id: number;
+  row: number;
+  seat: number;
+  showdate: string;
+  daytime: string;
+}
+
+export type BookPlaceData = {
+  movie_id: string;
+    row: string;
+    seat: string;
+    showdate: string;
+    daytime: string;
+    ticketkey: string;
+}
+
+export interface BookPlaceResponse {
+  error_code: number;
+  error_message: string;
+  data: BookPlaceData[];
+}
+
+export const bookPlace = async (request: BookPlaceRequest): Promise<BookPlaceResponse> => {
+  try {
+    const response = await axios.post(`${apiDomain}/bookPlace`, request);
+    return response.data;
+  } catch (error) {
+    console.error('Error booking place:', error);
+    throw error;
+  }
+};
