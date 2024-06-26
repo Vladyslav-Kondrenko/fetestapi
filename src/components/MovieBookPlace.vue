@@ -44,6 +44,7 @@ const bookMoviePlaces = async function (row: number, seat: number) {
   } catch (error) {
     console.error(error);
   } finally {
+    getMoviePlaces();
   }
 }
 
@@ -54,26 +55,26 @@ onMounted(() => {
 
 <template>
   <div>
-    <MovieBookedTicked   v-if="movieBookedPlace" :booked-moovie-name="movieName" :booked-place="movieBookedPlace"/>
+    <MovieBookedTicked v-if="movieBookedPlace" :booked-moovie-name="movieName" :booked-place="movieBookedPlace"/>
   </div>
   <div class="overflow-auto w-full">
-    <table v-if="moviePlaces.length > 0" class="table-auto w-full">
-      <thead class="text-sm">
-        <tr>
-          <th class="w-10 h-10">Rows / Seats</th>
-          <th v-for="n in moviePlaces[0][1]" :key="n.seat" class="w-10 h-10">Seat {{ n.seat }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, index) in moviePlaces" :key="index">
-          <td class="text-sm w-10 h-10"><span class="text-sm">Row</span> {{ row[0].row }}</td>
-          <td v-for="seat in row[1]" :key="seat.seat"
+    <div v-if="moviePlaces.length > 0" class="table-auto w-max">
+      <div class="text-sm">
+        <div class="flex">
+          <div class="w-10 h-10 flex items-center justify-center">Seats Rows</div>
+          <div v-for="n in moviePlaces[0][1]" :key="n.seat" class="w-10 h-10 flex items-center justify-center">S{{ n.seat }}</div>
+        </div>
+      </div>
+      <div>
+        <div v-for="(row, index) in moviePlaces" :key="index" class="flex">
+          <div class="text-sm w-10 h-10 flex items-center justify-center"><span class="text-sm">R</span>{{ row[0].row }}</div>
+          <div v-for="seat in row[1]" :key="seat.seat"
             :class="seat.is_free ? 'bg-green-200 md:hover:bg-green-400' : 'bg-red-200 md:hover:bg-red-400'"
-            class="text-center w-10 h-10">
-            <button @click="bookMoviePlaces(row[0].row, seat.seat)" :disabled="!seat.is_free">{{ seat.seat }}</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            class="text-center w-10 h-10 flex items-center justify-center">
+            <button @click="bookMoviePlaces(row[0].row, seat.seat)" :disabled="!seat.is_free" class="w-full h-full">{{ seat.seat }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

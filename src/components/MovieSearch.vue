@@ -23,7 +23,7 @@ const searchResultsLoading = ref(false);
 
 const movieSearchByQueryAndGenre = async function () {
   searchResultsLoading.value = true;
-  if (searchQuery.value.length === 0) {
+  if (searchQuery.value.length === 0 && searchGenre.value.length === 0) {
     searchResults.value = [];
     return;
   }
@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
       </SelectContent>
     </Select>
 
-    <Button @click="clearSearchForm" variant="outline" size="icon" class="shrink-0">
+    <Button v-if="searchQuery || searchGenre" @click="clearSearchForm" variant="outline" size="icon" class="shrink-0">
     <X class="w-4 h-4" />
   </Button>
 
@@ -105,6 +105,9 @@ onBeforeUnmount(() => {
         </div>
         </router-link>
       </div>
+    </div>
+    <div v-else>
+      <p>Sorry, we didn't find anything</p>
     </div>
   </div>
 </template>

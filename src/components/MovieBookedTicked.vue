@@ -20,15 +20,15 @@ defineProps<{
 </script>
 
 <template>
-  <Dialog>
-    <DialogTrigger>
-      <Button class="gap-1">
+  <Dialog :defaultOpen="true">
+    <DialogTrigger :disabled="!bookedPlace">
+      <Button :disabled="!bookedPlace" class="gap-1">
 				<span>Your booked ticket</span>
 				<TicketCheck class="w-4 h-4" />
 
 			</Button>
     </DialogTrigger>
-    <DialogContent>
+    <DialogContent class="max-w-[410px]">
       <DialogHeader>
         <DialogTitle>Your Ticket</DialogTitle>
         <div class="cardWrap" v-if="bookedPlace">
@@ -60,9 +60,6 @@ defineProps<{
 
         </div>
       </DialogHeader>
-
-      <DialogFooter>
-      </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>
@@ -130,7 +127,7 @@ defineProps<{
 	 color: #a2aeae;
 }
  .title {
-	 margin: 2em 0 0 0;
+	 margin: 0.5em 0 0 0;
 }
  .name, .seat {
 	 margin: 0.7em 0 0 0;

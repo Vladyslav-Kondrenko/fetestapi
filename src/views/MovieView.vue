@@ -63,7 +63,11 @@ onMounted(() => {
         <div class="">{{ movie.description }}</div>
       </div>
     </div>
+    <p class="text-2xl font-medium">Movie Sessions</p>
     <MovieSessions :movie-sessions="movieSessions" @update:selected-movie-session="updateSelectedSession"  />
     <MovieBookPlace v-if="selectedMovieSession && movie?.name" :movie-name="movie?.name" :movie-id="movieId" :movie-session="selectedMovieSession" />
+    <div v-if="!selectedMovieSession">
+      <p class="text-2xl font-medium text-center">Select Session to see available tickets</p>
+    </div>
   </div>
 </template>
