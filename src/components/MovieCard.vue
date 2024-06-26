@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { defineProps, ref } from 'vue';
 import type { Movie } from '@/components/movie.type';
+import type { MovieSession } from '@/components/movieSession.type';
 import { getMovieShows } from '@/api/api';
 import { Button } from '@/components/ui/button'
 import { Calendar, Eye, Loader2 } from 'lucide-vue-next';
@@ -12,11 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import MovieSessions from '@/components/MovieSessions.vue'
 const props = defineProps<{
   movie: Movie
 }>();
 
-const movieSessions = ref([]);
+const movieSessions = ref<MovieSession[]>();
 const movieSessionsLoading = ref(false);
 const getMovieSessions = async function () {
   movieSessionsLoading.value = true;
@@ -38,20 +40,14 @@ const getMovieSessions = async function () {
       <div class="h-80 overflow-hidden flex justify-center mb-4 pt-6">
         <img :src="movie.image" :alt="movie.name" class="h-full max-h-80 object-contain	">
       </div>
-      <CardTitle>{{ movie.name }}</CardTitle>
+      <CardTitle class="mb-2">{{ movie.name }}</CardTitle>
       <CardDescription>{{ movie.description }}</CardDescription>
     </CardContent>
     <CardFooter class="mt-auto flex flex-col">
       <div>
         <div v-if="movieSessions">
-          <div v-for="session in movieSessions">
-            Date: {{ session.showdate }}
-            <div class="flex flex-wrap gap-x-2">
-              <span v-for="time in session.daytime.split(';')">{{ time }}</span>
-            </div>
-          </div>
+          <MovieSessions :movie-sessions="movieSessions" class="mb-4" />
         </div>
-        <div v-else>No sessions</div>
       </div>
       <div class="flex gap-2">
         <Button :disabled="movieSessionsLoading" @click="getMovieSessions" variant="outline" size="icon">
