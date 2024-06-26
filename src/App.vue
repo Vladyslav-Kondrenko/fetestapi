@@ -1,12 +1,9 @@
 <script setup lang="ts">
+
 </script>
 
 <template>
-  <div>
-    
+  <div class="container py-10">
+    <router-view />
   </div>
 </template>
-
-<style scoped>
-
-</style>
